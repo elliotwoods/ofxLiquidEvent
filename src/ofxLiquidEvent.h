@@ -1,10 +1,21 @@
 #pragma once
-#include <functional>
+
+//#define OFXLIQUIDEVENT_USE_TR1
+
+#ifdef OFXLIQUIDEVENT_USE_TR1
+	#include <tr1/functional>
+	#define FUNCTION tr1::function
+#else
+	#include <functional>
+	#define FUNCTION std::function
+#endif
+
 #include <map>
+
 
 template<class ArgType>
 class ofxLiquidEvent {
-	typedef std::function<void (ArgType&)> Functor;
+	typedef FUNCTION<void (ArgType&)> Functor;
 	typedef int32_t IndexType; // use negative index for bottom of stack
 	struct Index {
 		Index(IndexType order, void* owner) {
