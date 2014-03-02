@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DFFB7809-498F-4024-838D-A98EB8F74871</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Example_simpleExample</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>29BE7934-615A-4C65-BF83-B2D2B6564888</key>
+		<string>https://github.com/elliotwoods/ofxLiquidEvent.git</string>
+		<key>43236076-7C4A-4A7D-8A6C-E6E56E961085</key>
+		<string>ssh://github.com/elliotwoods/openFrameworks.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>addons/ofxLiquidEvent/Example_simpleExample/Example_simpleExample.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>29BE7934-615A-4C65-BF83-B2D2B6564888</key>
+		<string>../../..</string>
+		<key>43236076-7C4A-4A7D-8A6C-E6E56E961085</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/elliotwoods/ofxLiquidEvent.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>43236076-7C4A-4A7D-8A6C-E6E56E961085</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>29BE7934-615A-4C65-BF83-B2D2B6564888</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxLiquidEvent</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>43236076-7C4A-4A7D-8A6C-E6E56E961085</string>
+			<key>IDESourceControlWCCName</key>
+			<string>openFrameworks</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,6 +1,8 @@
 #pragma once
 
-//#define OFXLIQUIDEVENT_USE_TR1
+#if __cplusplus<201103L
+	#define OFXLIQUIDEVENT_USE_TR1
+#endif
 
 #ifdef OFXLIQUIDEVENT_USE_TR1
 	#include <tr1/functional>
