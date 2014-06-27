@@ -17,6 +17,26 @@
 
 template<class ArgType>
 class ofxLiquidEvent {
+	/*
+	class HandleLegacyEvent {
+	public:
+		HandleLegacyEvent(ofEvent<ArgType> & event) : event(event) {
+			ofAddListener(event, this, & callback);
+		}
+
+		~HandleLegacyEvent() {
+			ofRemoveListener(this->event, this, & callback);
+		}
+
+		ofxLiquidEvent<ArgType> liquidEvent;
+	protected:
+		void callback(ArgType & args) {
+			this->liquidEvent(args);
+		}
+		ofEvent<ArgType> & event;
+	};
+	*/
+
 	typedef FUNCTION<void (ArgType&)> Functor;
 	typedef int32_t IndexType; // use negative index for bottom of stack
 	struct Index {
@@ -40,21 +60,18 @@ public:
 		this->addListener(functor, 0);
 	}
 	void addListener(Functor functor, void* owner) {
-		IndexType nextIndex;
-		if (this->listeners.empty()) {
-			//start with first index
-			nextIndex = 0;
-		} else {
-			//assign index directly after last in stack
-			auto last = this->listeners.end();
-			last--;
-			nextIndex = last->first.order + 1;
+		IndexType order = 0;
+		if (!this->listeners.empty()) {
+			//loop until we find a free index
+			while (listeners.find(Index(order, 0)) != listeners.end()) {
+				order++;
+			}
 		}
-		this->listeners.insert(Pair(Index(nextIndex, owner), functor));
+		this->listeners.insert(Pair(Index(order, owner), functor));
 	}
 	void addListener(Functor functor, IndexType order, void* owner) {
 		//loop until we find a free index
-		while (listeners.count(Index(order, 0)) > 0) {
+		while (listeners.find(Index(order, 0)) != listeners.end()) {
 			order++;
 		}
 		this->listeners.insert(Pair(Index(order, owner), functor));
