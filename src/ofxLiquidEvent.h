@@ -92,6 +92,13 @@ public:
 			listener.second(arguments);
 		}
 	}
+	/// Useful for mouse action stacks where last is top (first)
+	void notifyListenersInReverse(ArgType& arguments) {
+		auto it = this->listeners.rbegin();
+		for (; it != this->listeners.rend(); it++) {
+			it->second(arguments);
+		}
+	}
 	void operator()(ArgType& arguments) {
 		this->notifyListeners(arguments);
 	}
