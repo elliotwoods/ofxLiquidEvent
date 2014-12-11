@@ -59,6 +59,7 @@ public:
 	void operator+=(Functor functor) {
 		this->addListener(functor, 0);
 	}
+
 	void addListener(Functor functor, void* owner) {
 		IndexType order = 0;
 		if (!this->listeners.empty()) {
@@ -69,6 +70,7 @@ public:
 		}
 		this->listeners.insert(Pair(Index(order, owner), functor));
 	}
+
 	void addListener(Functor functor, IndexType order, void* owner) {
 		//loop until we find a free index
 		while (listeners.find(Index(order, 0)) != listeners.end()) {
@@ -76,6 +78,7 @@ public:
 		}
 		this->listeners.insert(Pair(Index(order, owner), functor));
 	}
+
 	void removeListeners(void* owner) {
 		vector<IndexType> toRemove;
 		for(auto iterator : this->listeners) {
@@ -87,11 +90,13 @@ public:
 			this->listeners.erase(Index(order, owner));
 		}
 	}
+
 	void notifyListeners(ArgType& arguments) {
 		for(auto listener : this->listeners) {
 			listener.second(arguments);
 		}
 	}
+
 	/// Useful for mouse action stacks where last is top (first)
 	void notifyListenersInReverse(ArgType& arguments) {
 		auto it = this->listeners.rbegin();
@@ -99,8 +104,22 @@ public:
 			it->second(arguments);
 		}
 	}
+
 	void operator()(ArgType& arguments) {
 		this->notifyListeners(arguments);
+	}
+
+	bool empty() const {
+		return this->listeners.empty();
+	}
+
+
+	size_t size() const {
+		return this->listeners.size();
+	}
+
+	const FunctorMap & getListeners() const {
+		return this->listeners;
 	}
 protected:
 	FunctorMap listeners;
