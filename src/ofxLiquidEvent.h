@@ -17,27 +17,8 @@
 
 template<class ArgType>
 class ofxLiquidEvent {
-	/*
-	class HandleLegacyEvent {
-	public:
-		HandleLegacyEvent(ofEvent<ArgType> & event) : event(event) {
-			ofAddListener(event, this, & callback);
-		}
-
-		~HandleLegacyEvent() {
-			ofRemoveListener(this->event, this, & callback);
-		}
-
-		ofxLiquidEvent<ArgType> liquidEvent;
-	protected:
-		void callback(ArgType & args) {
-			this->liquidEvent(args);
-		}
-		ofEvent<ArgType> & event;
-	};
-	*/
-
-	typedef FUNCTION<void (ArgType&)> Functor;
+public:
+	typedef public FUNCTION<void(ArgType&)> Functor;
 	typedef int32_t IndexType; // use negative index for bottom of stack
 	struct Index {
 		Index(IndexType order, void* owner) {
@@ -55,7 +36,7 @@ class ofxLiquidEvent {
 	};
 	typedef std::map<Index, Functor> FunctorMap;
 	typedef std::pair<Index, Functor> Pair;
-public:
+
 	void operator+=(Functor functor) {
 		this->addListener(functor, 0);
 	}
@@ -92,8 +73,16 @@ public:
 	}
 
 	void notifyListeners(ArgType& arguments) {
-		for(auto listener : this->listeners) {
+		for (auto listener : this->listeners) {
 			listener.second(arguments);
+		}
+	}
+
+	/// Warning : You will not be able to call this if ArgType does not have a default public constructor
+	void notifyListeners() {
+		ArgType dummyArguments;
+		for (auto listener : this->listeners) {
+			listener.second(dummyArguments);
 		}
 	}
 
@@ -124,3 +113,88 @@ public:
 protected:
 	FunctorMap listeners;
 };
+
+
+//--
+//Specialization for ofxLiquidEvent<void>
+//--
+//
+//unhappily, we have to write the code out again 1:1 with the different type
+//since void is incompatible with some of the function templates above (e.g. use of ArgType&)
+//
+//
+/// NOTE : you can't call onMyEvent(), you must use onMyEvent.notifyListeners();
+template<>
+class ofxLiquidEvent<void> {
+	typedef FUNCTION<void()> Functor;
+	typedef ofxLiquidEvent<int>::IndexType IndexType;
+	typedef ofxLiquidEvent<int>::Index Index;
+	typedef std::map<Index, Functor> FunctorMap;
+	typedef std::pair<Index, Functor> Pair;
+public:
+	void operator+=(Functor functor) {
+		this->addListener(functor, 0);
+	}
+
+	void addListener(Functor functor, void* owner) {
+		IndexType order = 0;
+		if (!this->listeners.empty()) {
+			//loop until we find a free index
+			while (listeners.find(Index(order, 0)) != listeners.end()) {
+				order++;
+			}
+		}
+		this->listeners.insert(Pair(Index(order, owner), functor));
+	}
+
+	void addListener(Functor functor, IndexType order, void* owner) {
+		//loop until we find a free index
+		while (listeners.find(Index(order, 0)) != listeners.end()) {
+			order++;
+		}
+		this->listeners.insert(Pair(Index(order, owner), functor));
+	}
+
+	void removeListeners(void* owner) {
+		vector<IndexType> toRemove;
+		for (auto iterator : this->listeners) {
+			if (iterator.first.owner == owner) {
+				toRemove.push_back(iterator.first.order);
+			}
+		}
+		for (auto order : toRemove) {
+			this->listeners.erase(Index(order, owner));
+		}
+	}
+
+	void notifyListeners() {
+		for (auto listener : this->listeners) {
+			listener.second();
+		}
+	}
+
+	/// Useful for mouse action stacks where last is top (first)
+	void notifyListenersInReverse() {
+		auto it = this->listeners.rbegin();
+		for (; it != this->listeners.rend(); it++) {
+			it->second();
+		}
+	}
+
+	bool empty() const {
+		return this->listeners.empty();
+	}
+
+
+	size_t size() const {
+		return this->listeners.size();
+	}
+
+	const FunctorMap & getListeners() const {
+		return this->listeners;
+	}
+protected:
+	FunctorMap listeners;
+};
+//
+//--
