@@ -19,6 +19,7 @@ template<class ArgType>
 class ofxLiquidEvent {
 public:
 	typedef public FUNCTION<void(ArgType&)> Functor;
+	typedef public FUNCTION<void()> VoidFunctor;
 	typedef int32_t IndexType; // use negative index for bottom of stack
 	struct Index {
 		Index(IndexType order, void* owner) {
