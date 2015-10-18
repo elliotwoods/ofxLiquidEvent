@@ -18,8 +18,14 @@
 template<class ArgType>
 class ofxLiquidEvent {
 public:
-	typedef public FUNCTION<void(ArgType&)> Functor;
-	typedef public FUNCTION<void()> VoidFunctor;
+	//this used to be
+	/*
+	 typedef public FUNCTION<void(ArgType&)> Functor;
+	 typedef public FUNCTION<void()> VoidFunctor;
+	 not sure why... but anyway that doesn't work on Xcode 6
+	 */
+	typedef FUNCTION<void(ArgType&)> Functor;
+	typedef FUNCTION<void()> VoidFunctor;
 	typedef int32_t IndexType; // use negative index for bottom of stack
 	struct Index {
 		Index(IndexType order, void* owner) {
