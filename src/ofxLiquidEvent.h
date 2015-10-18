@@ -103,7 +103,6 @@ public:
 		return this->listeners.empty();
 	}
 
-
 	size_t size() const {
 		return this->listeners.size();
 	}
@@ -111,6 +110,11 @@ public:
 	const FunctorMap & getListeners() const {
 		return this->listeners;
 	}
+
+	void clear() {
+		this->listeners.clear();
+	}
+
 protected:
 	FunctorMap listeners;
 };
@@ -193,6 +197,10 @@ public:
 
 	const FunctorMap & getListeners() const {
 		return this->listeners;
+	}
+
+	void clear() {
+		this->listeners.clear();
 	}
 protected:
 	FunctorMap listeners;
