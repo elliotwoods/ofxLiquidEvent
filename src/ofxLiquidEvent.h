@@ -59,7 +59,7 @@ public:
 		this->listeners.insert(Pair(Index(order, owner), functor));
 	}
 
-	void addListener(Functor functor, IndexType order, void* owner) {
+	void addListener(Functor functor, void* owner, IndexType order) {
 		//loop until we find a free index
 		while (listeners.find(Index(order, 0)) != listeners.end()) {
 			order++;
