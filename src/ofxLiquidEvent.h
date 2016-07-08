@@ -68,7 +68,7 @@ public:
 	}
 
 	void removeListeners(void* owner) {
-		vector<IndexType> toRemove;
+    std::vector<IndexType> toRemove;
 		for(auto iterator : this->listeners) {
 			if (iterator.first.owner == owner) {
 				toRemove.push_back(iterator.first.order);
